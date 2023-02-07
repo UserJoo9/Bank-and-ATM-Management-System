@@ -501,41 +501,6 @@ class Bank():
         except:
             self.ctkmessagbox_showerror("", "error!", "There error in this account data!")
 
-    # def describe(self, type):
-    #     if os.path.exists(f'new acc {self.__userid}.txt'):
-    #         with open(f'new acc {self.__userid}.txt', 'r') as f:
-    #             id = f.readline().split('\n')
-    #             self.__userid = str(id[0])
-    #             user = f.readline().split('\n')
-    #             self.__name = str(user[0])
-    #             pwd = f.readline().split('\n')
-    #             pwd = str(pwd[0])
-    #             self.__password = pwd
-    #             db = f.readline().split('\n')
-    #             self.__Dollarbalance = int(db[0])
-    #             eb = f.readline().split('\n')
-    #             self.__LEbalance = int(eb[0])
-    #         f.close()
-    #         if pwd == self.__password:
-    #             if type == 'normal':
-    #                 print("\nAccount Details")
-    #                 print(f"Account ID       '{self.__userid}'\n"
-    #                       f"Account Name     '{self.__name}'\n"
-    #                       f"Account Password '{self.__password}' \n"
-    #                       f"$-Balance=       '{self.__Dollarbalance}' \n"
-    #                       f"EGP-Balance=     '{self.__LEbalance}' \n")
-    #             else:
-    #                 print("\nAccount Details")
-    #                 print(f"Account ID       '{self.__userid}'\n"
-    #                       f"Account Name     '{self.__name}'\n"
-    #                       # f"Account Password '{self.__password}' \n"
-    #                       f"$-Balance=       '{self.__Dollarbalance}' \n"
-    #                       f"EGP-Balance=     '{self.__LEbalance}' \n")
-    #         else:
-    #             print("Other Account Use This Name!")
-    #     else:
-    #         print("No Data To Describe!")
-
     def Deposit(self):
         if self.depositvartype.get() == 1:
             try:
