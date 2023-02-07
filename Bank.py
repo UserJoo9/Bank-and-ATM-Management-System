@@ -7,6 +7,10 @@ width = int(GetSystemMetrics(0) / 3)
 height = int(GetSystemMetrics(1) / 6)
 aspectRatio = f'{width}+{height}'
 
+window_bg = CTkImage(light_image=Image.open("img/e-Banking.jpg"),
+                                  dark_image=Image.open("img/e-Banking.jpg"),
+                                  size=(600, 400))
+
 
 class Bank():
 
@@ -71,8 +75,11 @@ class Bank():
         self.root.resizable(False, False)
         self.root.geometry(aspectRatio)
 
+        self.bg_label = CTkLabel(self.root, text="", image=window_bg)
+        self.bg_label.place(x=0, y=0)
+
         self.mainFrame = CTkFrame(self.root)
-        self.mainFrame.pack(pady=20, padx=20)
+        self.mainFrame.pack(pady=30, padx=30)
 
         self.greetingsLabel = CTkLabel(self.mainFrame, text="Welcome to e-Bank", font=("roboto", 22, 'bold'),
                                        width=400, height=50)
@@ -99,8 +106,11 @@ class Bank():
         self.login.resizable(False, False)
         self.login.geometry(aspectRatio)
 
+        self.bg_label = CTkLabel(self.login, text="", image=window_bg)
+        self.bg_label.place(x=0, y=0)
+
         self.loginFrame = CTkFrame(self.login)
-        self.loginFrame.pack(pady=20, padx=20)
+        self.loginFrame.pack(pady=30, padx=30)
 
         self.loginLabel = CTkLabel(self.loginFrame, text="Login", width=400, height=50, font=("roboto", 22, "bold"))
         self.loginLabel.pack(pady=10, padx=20)
@@ -133,8 +143,11 @@ class Bank():
         self.create.resizable(False, False)
         self.create.geometry(aspectRatio)
 
+        self.bg_label = CTkLabel(self.create, text="", image=window_bg)
+        self.bg_label.place(x=0, y=0)
+
         self.createFrame = CTkFrame(self.create)
-        self.createFrame.pack(pady=20, padx=20)
+        self.createFrame.pack(pady=30, padx=30)
 
         self.createLabel = CTkLabel(self.createFrame, text="Create Account", font=("roboto", 22, "bold"), height=50,
                                     width=400)
@@ -171,8 +184,11 @@ class Bank():
         self.board.resizable(False, False)
         self.board.geometry(aspectRatio)
 
+        self.bg_label = CTkLabel(self.board, text="", image=window_bg)
+        self.bg_label.place(x=0, y=0)
+
         self.bordFrame = CTkFrame(self.board)
-        self.bordFrame.pack(padx=20, pady=20)
+        self.bordFrame.pack(padx=30, pady=30)
 
         self.boardLabel = CTkLabel(self.bordFrame, text="Dashboard & Control", font=("roboto", 22, "bold"), width=400,
                                    height=50)
@@ -226,8 +242,11 @@ class Bank():
         self.withdraw.title("Withdraw")
         self.withdraw.geometry(aspectRatio)
 
+        self.bg_label = CTkLabel(self.withdraw, text="", image=window_bg)
+        self.bg_label.place(x=0, y=0)
+
         self.withdraw_frame = CTkFrame(self.withdraw)
-        self.withdraw_frame.pack(pady=20, padx=10)
+        self.withdraw_frame.pack(pady=30, padx=30)
 
         self.withdrawLabel = CTkLabel(self.withdraw_frame, text='Withdraw', font=('Arial', 20, 'bold'), width=400,
                                       height=50,
@@ -268,8 +287,11 @@ class Bank():
         self.deposit.title("Deposit")
         self.deposit.geometry(aspectRatio)
 
+        self.bg_label = CTkLabel(self.deposit, text="", image=window_bg)
+        self.bg_label.place(x=0, y=0)
+
         self.deposit_frame = CTkFrame(self.deposit)
-        self.deposit_frame.pack(pady=20, padx=20)
+        self.deposit_frame.pack(pady=30, padx=30)
 
         self.depositLabel = CTkLabel(self.deposit_frame, text='Deposit', font=('Arial', 20, 'bold'), width=400,
                                      height=50,
