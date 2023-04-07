@@ -370,6 +370,8 @@ class Bank():
             self.setUserID(int(self.getID()) + 1)
             self.setName(self.createUsernameEntry.get())
             self.setPassword(self.createPassEntry.get())
+            self.setEgpt(0)
+            self.setDollar(0)
             self.writeNewData()
             self.userLogin(str(self.getUserID()), self.getName(), self.getPassword())
             self.setID()
