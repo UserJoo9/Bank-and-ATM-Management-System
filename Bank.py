@@ -431,9 +431,7 @@ class Bank():
             self.setPassword(str(pwd[0]))
             self.setDollar(int(db[0]))
             self.setEgpt(int(eb[0]))
-        # else:
-            # CTkMsg(master=self.login, title="Login error!",
-            #        message="There is no account with this data!", icon="cancel")
+
 
     def writeNewData(self):
         try:

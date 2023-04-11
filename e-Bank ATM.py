@@ -441,7 +441,6 @@ def exit(*args):
 
 top = ctk.CTk()
 top.title('e-Bank ATM')
-top.geometry('400x600')
 top.resizable(False, False)
 
 MainMenu()
