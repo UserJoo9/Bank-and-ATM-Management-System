@@ -224,6 +224,10 @@ class Bank():
                                        , command=self.depositUI)
         self.depositButton.grid(row=5, column=0, pady=(0, 20), padx=20)
 
+        self.transferButton = CTkButton(self.bordFrame, text="Transfer", font=("roboto", 15, "bold"), width=150, height=35
+                                        , command=self.transfer_transactionUI)
+        self.transferButton.grid(row=6, column=0, pady=(0, 20), padx=20)
+
         self.toolsManageLabel = CTkLabel(self.bordFrame, text="Account management", font=("roboto", 16, "bold"),
                                          width=100,
                                          fg_color="black", corner_radius=15)
@@ -348,6 +352,50 @@ class Bank():
                                     command=self.deposit.destroy)
         self.backButton.grid(row=5, column=0, columnspan=4, pady=10, padx=10)
         self.deposit.after(100, self.deposit.lift)
+
+    def transfer_transactionUI(self):
+        self.trans = CTkToplevel(self.board)
+        self.trans.resizable(False, False)
+        self.trans.title("Transfer")
+        self.trans.geometry(aspectRatio)
+
+        self.frm = CTkFrame(self.trans)
+        self.frm.pack(pady=30, padx=30)
+
+        self.transfer_label = CTkLabel(self.frm, text='Transfer', font=('Arial', 20, 'bold'), width=400,
+                                     height=50,
+                                     bg_color="gray", text_color="black")
+        self.transfer_label.grid(row=0, column=0, columnspan=4, pady=10, padx=10)
+
+        self.transtype = IntVar()
+        self.dollarTransRadioButton = CTkRadioButton(self.frm, text="DOLLAR.$", variable=self.transtype,
+                                                value=1, font=('arial', 10, 'bold'))
+        self.dollarTransRadioButton.grid(row=1, column=1, pady=10)
+        self.egyptTransRadioButton = CTkRadioButton(self.frm, text="EGP.LE", variable=self.transtype, value=2,
+                                               font=('arial', 10, 'bold'))
+        self.egyptTransRadioButton.grid(row=1, column=2, pady=10)
+
+        self.idTransLabel = CTkLabel(self.frm, text='Account ID', font=('Arial', 14, 'bold'))
+        self.idTransLabel.grid(row=3, column=0, pady=10, padx=10)
+        self.idTransEntery = CTkEntry(self.frm, width=300, font=('Arial', 12))
+        self.idTransEntery.grid(row=3, column=1, columnspan=3, pady=10, padx=10)
+
+        self.amountTransLabel = CTkLabel(self.frm, text='Amount', font=('Arial', 14, 'bold'))
+        self.amountTransLabel.grid(row=4, column=0, pady=10, padx=10)
+        self.amountTransEntery = CTkEntry(self.frm, width=300, font=('Arial', 12))
+        self.amountTransEntery.grid(row=4, column=1, columnspan=3, pady=10, padx=10)
+
+        self.secretLabel = CTkLabel(self.frm, text='Password', font=('Arial', 14, 'bold'))
+        self.secretLabel.grid(row=5, column=0, pady=10, padx=10)
+        self.secretTransEntery = CTkEntry(self.frm, width=300, font=('Arial', 12), show="*")
+        self.secretTransEntery.grid(row=5, column=1, columnspan=3, pady=10, padx=10)
+
+        self.transButton = CTkButton(self.frm, text='Submit', width=300, font=('Arial', 12, 'bold'),
+                                       command=self.Transfer)
+        self.transButton.grid(row=6, column=0, columnspan=4, pady=10, padx=10)
+
+        self.trans.after(100, self.trans.lift)
+
 
     # ----------------------------------------- END GUI --------------------------------------------------
 
@@ -486,7 +534,7 @@ class Bank():
             if self.withdrawvartype.get() == 1:
                 try:
                     Amount = int(self.amountEntery.get())
-                    if Amount <= self.getDollar() and Amount >= 50:
+                    if self.getDollar() >= Amount >= 50:
                         self.setDollar(self.__Dollarbalance - Amount)
                         self.writeNewData()
                         CTkMsg(master=self.withdraw, title="Success!", message=f"{Amount}$ was withdrawn.")
@@ -498,7 +546,7 @@ class Bank():
             elif self.withdrawvartype.get() == 2:
                 try:
                     Amount = int(self.amountEntery.get())
-                    if Amount <= self.getEgpt() and Amount >= 100:
+                    if self.getEgpt() >= Amount >= 100:
                         self.setEgpt(self.__LEbalance - Amount)
                         self.writeNewData()
                         CTkMsg(master=self.withdraw, title="Success!", message=f"{Amount}.LE was withdrawn.")
@@ -512,5 +560,77 @@ class Bank():
         else:
             CTkMsg(master=self.withdraw, title="error!", icon="cancel", message="Invalid data!")
 
+    def Transfer(self):
+        if self.secretTransEntery.get() == self.getPassword():
+            destAcc = f"new acc {self.idTransEntery.get()}.txt"
+            if self.transtype.get() == 1:
+                try:
+                    if os.path.exists(destAcc):
+                        Amount = int(self.amountTransEntery.get())
+                        if self.getDollar() >= Amount >= 10:
+                            self.setDollar(self.__Dollarbalance - Amount)
+                            self.writeNewData()
+                            with open(destAcc, 'r') as f:
+                                id = f.readline().split('\n')[0]
+                                user = f.readline().split('\n')[0]
+                                pwd = f.readline().split('\n')[0]
+                                db = f.readline().split('\n')[0]
+                                eb = f.readline().split('\n')[0]
+                            f.close()
+                            db = int(db) + Amount
+                            with open(destAcc, 'w') as f:
+                                f.write(f'{id}\n')
+                                f.write(f'{user}\n')
+                                f.write(f'{pwd}\n')
+                                f.write(f'{db}\n')
+                                f.write(f'{eb}\n')
+                                f.close()
+                            CTkMsg(master=self.trans, title="Success!", message=f"{Amount}$ was transferred to account ({id}).")
+                            self.dollarBalanceLabel.configure(text=f"DOLLAR: {self.getDollar()} $")
+                        else:
+                            CTkMsg(master=self.trans, title="error!", icon="cancel", message="$-Balance Not Enough!!")
+                        self.secretTransEntery.delete("0", "end")
+                        self.idTransEntery.delete("0", "end")
+                        self.amountTransEntery.delete("0", "end")
+                    else:
+                        CTkMsg(master=self.trans, title="error!", icon="cancel", message="There is now account with this id!")
+                except:
+                    CTkMsg(master=self.trans, title="error!", icon="cancel", message="Value Must Be Numeric Only!")
+            elif self.transtype.get() == 2:
+                try:
+                    if os.path.exists(destAcc):
+                        Amount = int(self.amountTransEntery.get())
+                        if self.getEgpt() >= Amount >= 50:
+                            self.setEgpt(self.__LEbalance - Amount)
+                            self.writeNewData()
+                            with open(destAcc, 'r') as f:
+                                id = f.readline().split('\n')[0]
+                                user = f.readline().split('\n')[0]
+                                pwd = f.readline().split('\n')[0]
+                                db = f.readline().split('\n')[0]
+                                eb = f.readline().split('\n')[0]
+                            f.close()
+                            eb = int(eb) + Amount
+                            with open(destAcc, 'w') as f:
+                                f.write(f'{id}\n')
+                                f.write(f'{user}\n')
+                                f.write(f'{pwd}\n')
+                                f.write(f'{db}\n')
+                                f.write(f'{eb}\n')
+                                f.close()
+                            CTkMsg(master=self.trans, title="Success!", message=f"{Amount}.LE was transferred to account ({id}).")
+                            self.dollarBalanceLabel.configure(text=f"EGP: {self.getEgpt()}.LE")
+                        else:
+                            CTkMsg(master=self.trans, title="error!", icon="cancel", message="LE Balance Not Enough!!")
+                        self.secretTransEntery.delete("0", "end")
+                        self.idTransEntery.delete("0", "end")
+                        self.amountTransEntery.delete("0", "end")
+                    else:
+                        CTkMsg(master=self.trans, title="error!", icon="cancel", message="There is now account with this id!")
+                except:
+                    CTkMsg(master=self.trans, title="error!", icon="cancel", message="Value Must Be Numeric Only!")
+        else:
+            CTkMsg(master=self.trans, title="error!", icon="cancel", message="Wrong password!!")
 
-Bank().mainMenu()
+if __name__ == "__main__":
+    Bank().mainMenu()
