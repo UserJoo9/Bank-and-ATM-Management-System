@@ -5,3 +5,6 @@
 ![Create account](https://ibb.co/cgv3gY5)
 
 ![Manage account](https://ibb.co/wdFF430)
+
+![Smart ATM](https://ibb.co/MsYwfqS)
+
