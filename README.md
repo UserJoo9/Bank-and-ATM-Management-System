@@ -1,10 +1,13 @@
-# Bank and ATM Management System
+# Unreal Bank & ATM System 🏦
 
-![Login](https://ibb.co/9W54Yyx)
+A lightweight Python simulation of banking operations and ATM services.
 
-![Create account](https://ibb.co/cgv3gY5)
+## ✨ Features
+- **Account Control:** Create, login, and manage accounts.
+- **Transactions:** Withdraw, deposit, and check balances.
+- **Fund Transfer:** Send money between accounts.
+- **Data Persistence:** Records stored in local `.txt` files.
 
-![Manage account](https://ibb.co/wdFF430)
-
-![Smart ATM](https://ibb.co/MsYwfqS)
-
+## 🛠️ Tech Stack
+- **Python 3.x**
+- **File Handling** (Data Storage)
